@@ -1,0 +1,46 @@
+# thirtydays 통합 requirements
+# 기준: Python 3.13 (.venv 3.13.16), macOS arm64, TensorFlow는 CPU 실행
+
+# ---- MLX (Qwen, Whisper, CLIP을 애플 GPU로) ----
+mlx==0.32.4
+mlx-lm==0.32.2              # prepare.py의 Qwen 변환에만 씀. 실행 때는 import하지 않음(torch가 딸려 옴)
+
+# ---- 공통 기반 (.venv 설치본 기준) ----
+torch==2.14.1
+torchvision==0.29.1
+numpy==2.5.4
+pillow==12.3.0
+
+# ---- TensorFlow (YAMNet, LingualSense) ----
+# tensorflow-cpu는 macOS wheel이 없음 → macOS에서는 tensorflow가 CPU 빌드
+tensorflow==2.21.0
+tf-keras==2.21.0            # YAMNet용, tensorflow<2.22,>=2.21 요구 (2.20.0은 yanked)
+
+# ---- 오디오 (PANNs, YAMNet, Whisper) ----
+numba==0.68.0               # numpy 2.5 지원은 0.67.0부터
+librosa==0.11.0             # torchlibrosa 0.1.0(2023)과의 호환을 위해 1.0 미만 유지
+torchlibrosa==0.1.0
+scipy>=1.11,<2
+soundfile>=0.12,<1
+sounddevice>=0.5,<1
+openai-whisper==20250625
+
+# ---- 비전 (CLIP, SSDLite, YOLO) ----
+ultralytics==8.4.176
+# CLIP: PyPI의 "clip"은 다른 패키지라 설치 금지. assets의 model.py + simple_tokenizer.py를 쓰고 의존성만 둠
+ftfy
+regex
+tqdm
+
+# ---- 텍스트 (Qwen, fastText) ----
+transformers==5.19.0        # Qwen2.5 (HF safetensors), huggingface_hub/tokenizers/safetensors 같이 설치됨
+llama-cpp-python>=0.3.16,<0.4
+# fastText: 공식 소스(2024-03 마지막 커밋)를 numpy 2용으로 패치한 로컬 소스를 빌드해 설치
+./assets/N/text/fastText/fastText-source
+
+# ---- LingualSense (이번 범위에서 제외) ----
+scikit-learn==1.6.1
+joblib
+dill
+
+# PANNs: 패키지 설치 없음 (PANNs-source/pytorch를 sys.path로 로드)

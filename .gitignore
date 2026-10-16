@@ -1,0 +1,14 @@
+# 환경과 자동 생성 파일
+.venv/
+__pycache__/
+*.pyc
+.DS_Store
+
+assets/**/models/
+
+assets/N/text/fastText/fastText-source/
+
+samples/live/
+
+samples/zidane.jpg
+samples/bus.jpg
